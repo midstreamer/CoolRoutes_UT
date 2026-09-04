@@ -1,0 +1,126 @@
+{
+  "type": "FeatureCollection",
+  "name": "coolroute_ut_pilot_locations",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "home",
+        "sourceId": "HOME01",
+        "name": "Rise at West Campus",
+        "abbreviation": "HOME",
+        "type": "residence",
+        "address": "2206 Nueces St, Austin, TX 78705"
+      },
+      "geometry": { "type": "Point", "coordinates": [-97.74414, 30.28587] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "bur",
+        "sourceId": "CLS01",
+        "name": "Burdine Hall",
+        "abbreviation": "BUR",
+        "type": "class-building",
+        "address": "2505 University Ave, Austin, TX 78712"
+      },
+      "geometry": { "type": "Point", "coordinates": [-97.73851, 30.28887] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "mez",
+        "sourceId": "CLS02",
+        "name": "Mezes Hall",
+        "abbreviation": "MEZ",
+        "type": "class-building",
+        "address": "154 W 21st St, Austin, TX 78712"
+      },
+      "geometry": { "type": "Point", "coordinates": [-97.73896, 30.28437] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gdc",
+        "sourceId": "CLS03",
+        "name": "Gates Dell Complex",
+        "abbreviation": "GDC",
+        "type": "class-building",
+        "address": "2317 Speedway, Austin, TX 78712"
+      },
+      "geometry": { "type": "Point", "coordinates": [-97.73645, 30.28625] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gar",
+        "sourceId": "CLS04",
+        "name": "Garrison Hall",
+        "abbreviation": "GAR",
+        "type": "class-building",
+        "address": "128 Inner Campus Dr, Austin, TX 78712"
+      },
+      "geometry": { "type": "Point", "coordinates": [-97.7385, 30.28514] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "unb",
+        "sourceId": "CR001",
+        "name": "Texas Union",
+        "abbreviation": "UNB",
+        "type": "cooling-stop",
+        "status": "candidate",
+        "coolingLevel": 3,
+        "address": "2308 Whitis Ave, Austin, TX 78712",
+        "verificationStatus": "Candidate only - requires UT approval and amenity validation"
+      },
+      "geometry": { "type": "Point", "coordinates": [-97.74116, 30.28663] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "fac",
+        "sourceId": "CR002",
+        "name": "Peter T. Flawn Academic Center",
+        "abbreviation": "FAC",
+        "type": "cooling-stop",
+        "status": "candidate",
+        "coolingLevel": 2,
+        "address": "2304 Whitis Ave, Austin, TX 78712",
+        "verificationStatus": "Candidate only - requires UT approval and amenity validation"
+      },
+      "geometry": { "type": "Point", "coordinates": [-97.74043, 30.28629] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "pcl",
+        "sourceId": "CR003",
+        "name": "Perry-Castañeda Library",
+        "abbreviation": "PCL",
+        "type": "cooling-stop",
+        "status": "candidate",
+        "coolingLevel": 3,
+        "address": "101 E 21st St, Austin, TX 78712",
+        "verificationStatus": "Candidate only - requires UT approval and amenity validation"
+      },
+      "geometry": { "type": "Point", "coordinates": [-97.73788, 30.2824] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "wcp",
+        "sourceId": "CR004",
+        "name": "William C. Powers, Jr. Student Activity Center",
+        "abbreviation": "WCP",
+        "type": "cooling-stop",
+        "status": "candidate",
+        "coolingLevel": 3,
+        "address": "2201 Speedway, Austin, TX 78712",
+        "verificationStatus": "Candidate only - requires UT approval and amenity validation"
+      },
+      "geometry": { "type": "Point", "coordinates": [-97.73645, 30.2849] }
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+sequence,day,depart_after,origin_id,origin,destination_id,destination,class_start,class_end,routing_priority,recommended_mode,candidate_cooling_nodes,notes
+1,Monday,Before 8:00 AM,HOME01,Rise at West Campus,CLS01,Burdine Hall,08:00,09:30,Balanced / morning arrival,Fastest or Coolest,Texas Union; FAC,Morning commute to first class; validate actual walking network and detour times.
+2,Monday,09:30,CLS01,Burdine Hall,CLS02,Mezes Hall,10:00,12:00,Time constrained (30-minute transition),Fastest or Coolest,FAC; Texas Union if on-route,Do not recommend a cooling stop if detour threatens on-time arrival.
+3,Monday,12:00,CLS02,Mezes Hall,CLS03,Gates Dell Complex,13:00,14:00,Heat-aware midday route,Coolest or Cooling Stops,PCL; WCP,Flagship MVP segment because student has ~60 minutes and midday heat exposure is more relevant.
+4,Monday,14:00,CLS03,Gates Dell Complex,HOME01,Rise at West Campus,,,Maximum heat reduction,Coolest or Maximum Cooling,WCP; FAC; Texas Union,No next-class deadline; route can trade extra minutes for lower outdoor heat exposure.

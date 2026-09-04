@@ -1,0 +1,93 @@
+{
+  "type": "FeatureCollection",
+  "name": "coolroute_ut_monday_conceptual_sequence",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "home-bur-concept",
+        "origin": "HOME",
+        "destination": "BUR",
+        "routingPriority": "Balanced / morning arrival",
+        "recommendedMode": "Fastest or Coolest",
+        "candidateCoolingNodes": "Texas Union; FAC",
+        "note": "Conceptual MVP connector, not a pedestrian navigation route."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-97.74414, 30.28587],
+          [-97.74116, 30.28663],
+          [-97.74043, 30.28629],
+          [-97.73851, 30.28887]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "bur-mez-concept",
+        "origin": "BUR",
+        "destination": "MEZ",
+        "routingPriority": "Time constrained (30-minute transition)",
+        "recommendedMode": "Fastest or Coolest",
+        "candidateCoolingNodes": "FAC; Texas Union if on-route",
+        "timeConstraintNote": "Do not recommend a cooling stop if detour threatens on-time arrival.",
+        "note": "Conceptual MVP connector, not a pedestrian navigation route."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-97.73851, 30.28887],
+          [-97.74043, 30.28629],
+          [-97.73896, 30.28437]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "mez-gdc-concept",
+        "origin": "MEZ",
+        "destination": "GDC",
+        "routingPriority": "Heat-aware midday route",
+        "recommendedMode": "Coolest or Cooling Stops",
+        "candidateCoolingNodes": "PCL; WCP",
+        "timeConstraintNote": "Student has about 60 minutes, so midday heat exposure is more relevant.",
+        "note": "Conceptual MVP connector, not a pedestrian navigation route."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-97.73896, 30.28437],
+          [-97.73788, 30.2824],
+          [-97.73645, 30.2849],
+          [-97.73645, 30.28625]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "gdc-home-concept",
+        "origin": "GDC",
+        "destination": "HOME",
+        "routingPriority": "Maximum heat reduction",
+        "recommendedMode": "Coolest or Maximum Cooling",
+        "candidateCoolingNodes": "WCP; FAC; Texas Union",
+        "timeConstraintNote": "No next-class deadline; route can trade extra minutes for lower outdoor heat exposure.",
+        "note": "Conceptual MVP connector, not a pedestrian navigation route."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-97.73645, 30.28625],
+          [-97.73645, 30.2849],
+          [-97.74043, 30.28629],
+          [-97.74116, 30.28663],
+          [-97.74414, 30.28587]
+        ]
+      }
+    }
+  ]
+}
