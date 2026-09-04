@@ -38,12 +38,21 @@ Copy `.env.example` to `.env` if you want to change local demo behavior.
 
 ```bash
 VITE_UT_ARCGIS_ITEM_ID=4a4dcdffa48c45be82d2db03d73f587c
+VITE_ARCGIS_API_KEY=
 VITE_USE_DEMO_TIME=true
 VITE_DEMO_DAY=Monday
 VITE_DEMO_TIME=09:30
 ```
 
-No ArcGIS credentials are required for the MVP because the UT item is public. Do not place secrets in source code.
+The UT campus item is public and does not require credentials. Real pedestrian routing for the Fastest route uses Esri's World Route service through `@arcgis/core/rest/route`, which may require an ArcGIS Location Platform or ArcGIS Online API key with routing privileges.
+
+Never commit an actual API key. Add it only to your local `.env` file:
+
+```bash
+VITE_ARCGIS_API_KEY=your_local_key_here
+```
+
+For GitHub Pages, configure `VITE_ARCGIS_API_KEY` as a repository secret or environment variable only if you want the deployed site to calculate live walking routes. Without it, the deployed app falls back to prototype route geometry.
 
 ## Project Structure
 
@@ -69,6 +78,15 @@ At runtime, `CampusMap` loads the portal item and classifies whether it is a Web
 `UT campus layer could not be loaded. Displaying fallback basemap.`
 
 CoolRoute origin, destination, candidate cooling stops, and selected route graphics are rendered above the campus layer.
+
+## Current Capabilities
+
+- Deterministic Monday 09:30 demo mode for the BUR to MEZ class transition.
+- Public UT Austin ArcGIS campus layer with graceful fallback.
+- Candidate cooling stop markers and details.
+- Route comparison between Fastest, Coolest, and Cooling Stops modes.
+- Real pedestrian routing for the Fastest route when `VITE_ARCGIS_API_KEY` is configured and the ArcGIS World Route service returns a walking travel mode.
+- Prototype fallback geometry when live routing is unavailable.
 
 ## Data Files
 
@@ -109,8 +127,10 @@ VITE_USE_DEMO_TIME=false
 
 ## Current Limitations
 
-- Route times, exposure levels, and cooling scores are prototype estimates.
-- Demo route geometry is conceptual and should not be treated as walkable routing.
+- Coolest and Cooling Stops remain conceptual prototype estimates.
+- Fastest uses live ArcGIS pedestrian routing only when routing credentials/configuration are available.
+- Heat exposure, shade, indoor coverage, and cooling scores are not yet calculated from real datasets.
+- Fallback route geometry is conceptual and should not be treated as walkable routing.
 - Weather is mock demo weather, not live weather.
 - Candidate cooling stops have pending verification fields unless explicitly marked in local data.
 - There is no backend, database, authentication, reservation system, or schedule integration.
@@ -123,9 +143,8 @@ v0.2:
 - More pilot routes
 
 v0.3:
-- ArcGIS route service
-- Pedestrian network routing
-- Actual route distance and travel time
+- Pedestrian network routing refinements
+- Actual route distance and travel time for more route modes
 
 v0.4:
 - Weather API
@@ -158,7 +177,7 @@ npm run test
 npm run build
 ```
 
-The service tests cover Monday demo time at 09:30 and the Tuesday remote-class case.
+The service tests cover Monday demo time at 09:30, the Tuesday remote-class case, and mocked route-service behavior for success, fallback, missing API keys, and in-memory caching.
 
 ## Disclaimer
 

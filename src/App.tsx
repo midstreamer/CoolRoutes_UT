@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { AboutView } from "./components/AboutView";
 import { AppHeader } from "./components/AppHeader";
 import { BottomNavigation } from "./components/BottomNavigation";
@@ -13,9 +13,18 @@ import { ScheduleView } from "./components/ScheduleView";
 import { coolingStops, getLocationByAbbreviation } from "./data/locations";
 import { useNextClass } from "./hooks/useNextClass";
 import { useRouteSelection } from "./hooks/useRouteSelection";
+import {
+  applyCalculatedRouteToOption,
+  calculatePedestrianRoute
+} from "./services/routeService";
 import type { AppTab } from "./types/navigation";
 import type { CoolRouteLocation } from "./types/location";
-import type { RouteMode } from "./types/route";
+import type {
+  CalculatedPedestrianRoute,
+  RouteMode,
+  RouteOption,
+  RoutingStatus
+} from "./types/route";
 
 const App = () => {
   const scheduleContext = useNextClass();
@@ -24,12 +33,41 @@ const App = () => {
     useState<CoolRouteLocation>();
   const [showFutureNavigationModal, setShowFutureNavigationModal] =
     useState(false);
+  const [fastestRouteResult, setFastestRouteResult] =
+    useState<CalculatedPedestrianRoute>();
+  const [fastestRoutingStatus, setFastestRoutingStatus] =
+    useState<RoutingStatus>("idle");
   const [highlightRemoteSuitable, setHighlightRemoteSuitable] = useState(false);
-  const { scenario, selectedRoute, selectedRouteMode, setSelectedRouteMode } =
-    useRouteSelection(scheduleContext.origin, scheduleContext.destination);
+  const {
+    scenario,
+    selectedRoute: selectedRouteBase,
+    selectedRouteMode,
+    setSelectedRouteMode
+  } = useRouteSelection(scheduleContext.origin, scheduleContext.destination);
 
   const origin = getLocationByAbbreviation(scenario.origin);
   const destination = getLocationByAbbreviation(scenario.destination);
+  const fastestRouteOption = useMemo<RouteOption>(() => {
+    if (fastestRouteResult) {
+      return applyCalculatedRouteToOption(
+        scenario.options.fastest,
+        fastestRouteResult
+      );
+    }
+
+    return {
+      ...scenario.options.fastest,
+      routeSource: "prototype",
+      isLiveRoute: false,
+      routingStatus: fastestRoutingStatus,
+      routingWarning:
+        fastestRoutingStatus === "loading"
+          ? "Calculating walking route…"
+          : undefined
+    };
+  }, [fastestRouteResult, fastestRoutingStatus, scenario]);
+  const selectedRoute =
+    selectedRouteMode === "fastest" ? fastestRouteOption : selectedRouteBase;
   const recommendedStop = coolingStops.find((stop) =>
     selectedRoute.coolingStopIds.includes(stop.id)
   );
@@ -42,6 +80,43 @@ const App = () => {
 
     return coolingStops;
   }, [selectedRoute]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    if (
+      selectedRouteMode !== "fastest" ||
+      !origin ||
+      !destination ||
+      fastestRouteResult
+    ) {
+      return;
+    }
+
+    setFastestRoutingStatus("loading");
+    void calculatePedestrianRoute(
+      origin,
+      destination,
+      scenario.options.fastest
+    ).then((result) => {
+      if (cancelled) {
+        return;
+      }
+
+      setFastestRouteResult(result);
+      setFastestRoutingStatus(result.isLiveRoute ? "success" : "fallback");
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [
+    destination,
+    fastestRouteResult,
+    origin,
+    scenario.options.fastest,
+    selectedRouteMode
+  ]);
 
   const handleFindCoolStudySpace = () => {
     setHighlightRemoteSuitable(true);
@@ -88,6 +163,7 @@ const App = () => {
             </div>
             <RouteModeSelector
               scenario={scenario}
+              fastestRoute={fastestRouteOption}
               selectedMode={selectedRouteMode}
               onSelectMode={handleSelectRouteMode}
             />

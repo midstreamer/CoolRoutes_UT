@@ -28,11 +28,21 @@ interface CampusMapProps {
   onSelectCoolingStop: (location: CoolRouteLocation) => void;
 }
 
-const routeSymbol = new SimpleLineSymbol({
-  color: [37, 99, 235, 0.85],
-  width: 3,
-  style: "solid"
-});
+const getRouteSymbol = (route: RouteOption) => {
+  if (route.mode === "fastest" && route.isLiveRoute) {
+    return new SimpleLineSymbol({
+      color: "#bf5700",
+      width: 4,
+      style: "solid"
+    });
+  }
+
+  return new SimpleLineSymbol({
+    color: route.mode === "fastest" ? "#bf5700" : "#2563eb",
+    width: 3,
+    style: route.mode === "fastest" ? "short-dash" : "solid"
+  });
+};
 
 const makePoint = (location: CoolRouteLocation) =>
   new Point({
@@ -122,17 +132,22 @@ const makeRouteGraphic = (route: RouteOption) =>
   new Graphic({
     geometry: new Polyline({
       paths: [route.routeCoordinates ?? []],
-      spatialReference: { wkid: 4326 }
+      spatialReference: { wkid: route.routeSpatialReferenceWkid ?? 4326 }
     }),
-    symbol: routeSymbol,
+    symbol: getRouteSymbol(route),
     attributes: {
       id: route.id,
       mode: route.mode
     },
     popupTemplate: {
-      title: "Demo route geometry",
+      title:
+        route.mode === "fastest" && route.isLiveRoute
+          ? "ArcGIS walking route"
+          : "Demo route geometry",
       content:
-        "These route lines are conceptual MVP connectors and are not pedestrian navigation routes."
+        route.mode === "fastest" && route.isLiveRoute
+          ? "Walking time and distance are calculated from ArcGIS pedestrian routing. Heat exposure is not yet incorporated."
+          : "These route lines are conceptual MVP connectors and are not pedestrian navigation routes."
     }
   });
 
@@ -324,13 +339,23 @@ export const CampusMap = ({
           <i className="legend-dot cooling" /> Cooling Stop
         </span>
         <span>
-          <i className="legend-line selected" /> Coolest Route
+          <i
+            className={`legend-line fastest ${
+              selectedRoute.mode === "fastest" && selectedRoute.isLiveRoute
+                ? "live"
+                : ""
+            }`}
+          />{" "}
+          Fastest Route{" "}
+          {selectedRoute.mode === "fastest" && selectedRoute.isLiveRoute
+            ? "Live pedestrian"
+            : "Prototype fallback"}
         </span>
         <span>
-          <i className="legend-line fastest" /> Fastest Route
+          <i className="legend-line selected" /> Coolest Route Concept
         </span>
         <span>
-          <i className="legend-line alternate" /> Alternate Route
+          <i className="legend-line alternate" /> Cooling Stop Concept
         </span>
       </div>
       <div ref={mapContainerRef} className="campus-map" />
